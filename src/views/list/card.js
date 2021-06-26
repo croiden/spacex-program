@@ -45,67 +45,75 @@ const ImageWrapper = styled.div`
     }
 `
 
-export default function Card({
-    flight_number,
-    mission_name,
-    mission_id,
-    launch_year,
-    launch_success,
-    land_success,
-    links,
-}: Program) {
-    const imgRef = React.useRef()
+const Card = React.forwardRef<Program, HTMLDivElement>(
+    (
+        {
+            flight_number,
+            mission_name,
+            mission_id,
+            launch_year,
+            launch_success,
+            land_success,
+            links,
+        }: Program,
+        ref
+    ) => {
+        const imgRef = React.useRef()
 
-    React.useEffect(() => {
-        let lazyObserver
-        let el
+        React.useEffect(() => {
+            let lazyObserver
+            let el
 
-        if (imgRef.current) {
-            el = imgRef.current
-            lazyObserver = getLazyObserver()
-            if (lazyObserver) {
-                lazyObserver.observe(el)
-            } else {
-                loadImage(el)
+            if (imgRef.current) {
+                el = imgRef.current
+                lazyObserver = getLazyObserver()
+                if (lazyObserver) {
+                    lazyObserver.observe(el)
+                } else {
+                    loadImage(el)
+                }
             }
-        }
-        return () => {
-            el && lazyObserver && lazyObserver.unobserve(el)
-        }
-    }, [])
+            return () => {
+                el && lazyObserver && lazyObserver.unobserve(el)
+            }
+        }, [])
 
-    return (
-        <Container>
-            <ImageWrapper>
-                <img ref={imgRef} data-src={links.mission_patch_small} alt={mission_name} />
-            </ImageWrapper>
-            <Title>
-                {mission_name} #{flight_number}
-            </Title>
-            <Info>
-                <strong>{'Mission Ids: '}</strong>
-                {mission_id.length ? (
-                    <ul>
-                        {mission_id.map((mId, index) => (
-                            <li key={index}>{mId}</li>
-                        ))}
-                    </ul>
-                ) : (
-                    <span>{'None'}</span>
-                )}
-            </Info>
-            <Info>
-                <strong>{'Launch Year: '}</strong>
-                <span>{launch_year}</span>
-            </Info>
-            <Info>
-                <strong>{'Successful Launch: '}</strong>
-                <span>{launch_success ? 'True' : 'False'}</span>
-            </Info>
-            <Info>
-                <strong>{'Successful Landing: '}</strong>
-                <span>{land_success ? 'True' : 'False'}</span>
-            </Info>
-        </Container>
-    )
-}
+        return (
+            /*$FlowFixMe */
+            <Container ref={ref}>
+                <ImageWrapper>
+                    <img ref={imgRef} data-src={links.mission_patch_small} alt={mission_name} />
+                </ImageWrapper>
+                <Title>
+                    {mission_name} #{flight_number}
+                </Title>
+                <Info>
+                    <strong>{'Mission Ids: '}</strong>
+                    {mission_id.length ? (
+                        <ul>
+                            {mission_id.map((mId, index) => (
+                                <li key={index}>{mId}</li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <span>{'None'}</span>
+                    )}
+                </Info>
+                <Info>
+                    <strong>{'Launch Year: '}</strong>
+                    <span>{launch_year}</span>
+                </Info>
+                <Info>
+                    <strong>{'Successful Launch: '}</strong>
+                    <span>{launch_success ? 'True' : 'False'}</span>
+                </Info>
+                <Info>
+                    <strong>{'Successful Landing: '}</strong>
+                    <span>{land_success ? 'True' : 'False'}</span>
+                </Info>
+            </Container>
+        )
+    }
+)
+
+export default Card

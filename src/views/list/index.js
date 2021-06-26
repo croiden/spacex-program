@@ -26,10 +26,30 @@ const EmptyMessage = styled.div`
     margin: 20px;
 `
 
+const PAGE_SIZE = 20
+
 export default function List() {
     const programs: Array<Program> = useSelector(state => state.programs)
     const loading: boolean = useSelector(state => state.loading)
     const error: boolean = useSelector(state => state.error)
+
+    const [showCount, setShowCount] = React.useState(PAGE_SIZE)
+
+    const observer = React.useRef()
+    const lastElementRef = React.useCallback(
+        node => {
+            if (observer.current) observer.current.disconnect()
+            observer.current = new IntersectionObserver(entries => {
+                if (entries[0].isIntersecting && programs.length > showCount) {
+                    setShowCount(count => count + PAGE_SIZE)
+                }
+            })
+            if (node) observer.current.observe(node)
+        },
+        [programs.length, showCount]
+    )
+
+    const displayPrograms = programs.slice(0, showCount)
 
     return (
         <Container>
@@ -37,28 +57,38 @@ export default function List() {
                 <EmptyMessage>{'Error occurred...'}</EmptyMessage>
             ) : loading ? (
                 <EmptyMessage>{'Loading...'}</EmptyMessage>
-            ) : programs.length ? (
-                programs.map(
-                    ({
-                        flight_number,
-                        mission_name,
-                        mission_id,
-                        launch_year,
-                        launch_success,
-                        land_success,
-                        links,
-                    }) => (
-                        <Card
-                            key={flight_number}
-                            flight_number={flight_number}
-                            mission_name={mission_name}
-                            mission_id={mission_id}
-                            launch_year={launch_year}
-                            launch_success={launch_success}
-                            land_success={land_success}
-                            links={links}
-                        />
-                    )
+            ) : displayPrograms.length ? (
+                displayPrograms.map(
+                    (
+                        {
+                            flight_number,
+                            mission_name,
+                            mission_id,
+                            launch_year,
+                            launch_success,
+                            land_success,
+                            links,
+                        },
+                        index
+                    ) => {
+                        let refProp = {}
+                        if (displayPrograms.length === index + 1) {
+                            refProp = { ref: lastElementRef }
+                        }
+                        return (
+                            <Card
+                                {...refProp}
+                                key={flight_number}
+                                flight_number={flight_number}
+                                mission_name={mission_name}
+                                mission_id={mission_id}
+                                launch_year={launch_year}
+                                launch_success={launch_success}
+                                land_success={land_success}
+                                links={links}
+                            />
+                        )
+                    }
                 )
             ) : (
                 <EmptyMessage>{'No programs found'}</EmptyMessage>
