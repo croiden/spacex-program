@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+    - '14'
+cache: yarn
+script:
+    - echo 'Deploy!!'
+    - echo 'Installing Deps!'
+    - yarn
+    - echo 'Testing!'
+    - yarn test
+    - yarn run build
+
+deploy:
+    provider: heroku
+    api_key:
+        secure: 'sYm/GfPEXusby5dS4CbVtQe1AkO3C3uvFgE9BUhFGo7+ItWRR9PmlMqVHf1o61mLhxq7hBbetICWW1/U+x7DtYBIqQN3Z3oIdzM+1LBwG0n0uIKuKe0aFJjdsQbYWW/zeWmkA5ohO7+Kd//JgtH2InFUOOZwWTy+1OjMpeHhjYV9y8tsSnlBQnkeJmdy49TFCUBqNl7Xr8sLRW0FIUpY5/jLvxIJN6qezSsweWfjN0XS144ffDqRwNMEAfWv/1tp7ltPqNSLPgy15TSES81fTn8b6akY1idFQf25beYOFC5srVaQ0IsBeA5/h1FzapOHK8lYnfTlKXAILKKy8Ha9HqvU++cE5NmfWxX6h8y1Kscd24x5YIADKmF9PlYqO4qcONnCLc9RPCeAcNmD3w84yLtJ3hZmFgTLgLZV5eaSsVwL+TJKP6m+K6xwKSoQdJxrjlWIXaZR/85X7cLvlWRyoTqJn8XrkltRVz0+eqZRgGX25A10uqw3p5g5qy4LbjWQ+kNkjfKqQK4xKIk8ysTIxNMMdIfc1olgIVuqD4Sf5/Cc0SKaky+G2H0/o0pcB4gO64lMlZBabFD3bHfiD/owYArNQ5tumzIG6hpa3+k6zrr2zudljBPwIn9QMYaJgMP8EInj5pTxjdUXN7TCTxKUiiIblduVF2YGwSclEtECfhw='
+    app: spacex-programs-lobo
+    on:
+        repo: croiden/spacex-program
