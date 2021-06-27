@@ -45,7 +45,11 @@ const ImageWrapper = styled.div`
     }
 `
 
-const Card = React.forwardRef<Program, HTMLDivElement>(
+type Props = Program & {
+    lazyImage: boolean,
+}
+
+const Card = React.forwardRef<Props, HTMLDivElement>(
     (
         {
             flight_number,
@@ -55,7 +59,8 @@ const Card = React.forwardRef<Program, HTMLDivElement>(
             launch_success,
             land_success,
             links,
-        }: Program,
+            lazyImage,
+        }: Props,
         ref
     ) => {
         const imgRef = React.useRef()
@@ -78,11 +83,19 @@ const Card = React.forwardRef<Program, HTMLDivElement>(
             }
         }, [])
 
+        const imageProps = {}
+        if (lazyImage) {
+            imageProps['data-src'] = links.mission_patch_small
+            imageProps['ref'] = imgRef
+        } else {
+            imageProps['src'] = links.mission_patch_small
+        }
+
         return (
             /*$FlowFixMe */
             <Container ref={ref}>
                 <ImageWrapper>
-                    <img ref={imgRef} data-src={links.mission_patch_small} alt={mission_name} />
+                    <img {...imageProps} alt={mission_name} />
                 </ImageWrapper>
                 <Title>
                     {mission_name} #{flight_number}

@@ -86,6 +86,7 @@ export default function List() {
                                 launch_success={launch_success}
                                 land_success={land_success}
                                 links={links}
+                                lazyImage={index > 10}
                             />
                         )
                     }
