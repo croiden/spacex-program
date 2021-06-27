@@ -1,4 +1,5 @@
 import express from 'express'
+import compress from 'compression'
 
 // we'll talk about this in a minute:
 import serverRenderer from './middleware/renderer'
@@ -8,6 +9,8 @@ const path = require('path')
 
 // initialize the application and create the routes
 const app = express()
+app.use(compress())
+
 const router = express.Router()
 
 // root (/) should always serve our server rendered page
