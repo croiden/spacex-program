@@ -39,6 +39,21 @@ const Container = styled.div`
         align-items: flex-start;
         overflow: hidden;
     }
+    @media screen and (max-width: 423px) {
+        height: calc(100vh - 170px);
+    }
+`
+
+const Footer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span {
+        font-size: 18px;
+    }
+    h3 {
+        margin: 10px;
+    }
 `
 
 export default function App() {
@@ -64,6 +79,10 @@ export default function App() {
                 <Filters />
                 <List />
             </Container>
+            <Footer>
+                <h3>{'Developed By:'}</h3>
+                <span>{' Croiden Lobo'}</span>
+            </Footer>
         </>
     )
 }
