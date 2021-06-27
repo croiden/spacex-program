@@ -15,7 +15,7 @@ const Container: ThemeType = styled.div`
     &:hover {
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     }
-    @media screen and (min-width: 1440px) {
+    @media screen and (min-width: 700px) {
         margin: 10px 6px;
         padding: 16px;
         max-width: 288px;

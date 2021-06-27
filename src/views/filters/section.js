@@ -27,7 +27,7 @@ const Option = styled.button`
     border: 0;
     cursor: pointer;
 
-    @media screen and (min-width: 1024px) {
+    @media screen and (min-width: 700px) {
         margin: 10px;
     }
 `

@@ -23,8 +23,6 @@ const Container: ThemeType = styled.div`
     }
     @media screen and (min-width: 700px) {
         height: calc(100vh - 160px);
-    }
-    @media screen and (min-width: 1024px) {
         max-width: 200px;
         min-width: 200px;
     }
